@@ -1,0 +1,27 @@
+
+[
+  {
+    "id": 1,
+    "question": "What is the capital of France?",
+    "answers": [
+      { "text": "Paris", "correct": true },
+      { "text": "London", "correct": false }
+    ]
+  },
+  {
+    "id": 2,
+    "question": "What is the largest planet in our solar system?",
+    "answers": [
+      { "text": "Jupiter", "correct": true },
+      { "text": "Earth", "correct": false }
+    ]
+  },
+  {
+    "id": 3,
+    "question": "What is the powerhouse of the cell?",
+    "answers": [
+      { "text": "Mitochondria", "correct": true },
+      { "text": "Nucleus", "correct": false }
+    ]
+  }
+]
