@@ -1,10 +1,10 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import "../../global.css"
-import { COLORS } from '@/constants/colors';
+import { HapticTab } from "@/components/HapticTab";
+import { IconSymbol } from "@/components/ui/IconSymbol";
+import { COLORS } from "@/constants/colors";
+import { Tabs } from "expo-router";
+import React from "react";
+import { Platform } from "react-native";
+import "../../global.css";
 
 export default function TabLayout() {
   const { primary, secondary, black, darkGrey } = COLORS;
@@ -18,7 +18,7 @@ export default function TabLayout() {
         tabBarButton: HapticTab,
         tabBarStyle: Platform.select({
           ios: {
-            position: 'absolute',
+            position: "absolute",
             backgroundColor: primary,
             borderTopWidth: 4,
             borderTopColor: secondary,
@@ -29,19 +29,24 @@ export default function TabLayout() {
             borderTopColor: secondary,
           },
         }),
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="house.fill" color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "Explore",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="paperplane.fill" color={color} />
+          ),
         }}
       />
     </Tabs>
