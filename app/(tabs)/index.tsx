@@ -2,6 +2,7 @@ import Spacer from "@/components/spacer/spacer";
 import Strip from "@/components/strip/strip";
 import useGameState from "@/contexts/useGameState/useGameState";
 import questions from "@/data/questions.json";
+import { Link } from "expo-router";
 import React from "react";
 import { Pressable, SafeAreaView, Text, View } from "react-native";
 
@@ -20,9 +21,11 @@ export default function HomeScreen() {
         <Text className="px-8 text-4xl font-bold text-center">Quizzes</Text>
         <Spacer size="small" />
 
-        <Pressable onPress={handlePress}>
-          <Strip text="World Capitals" showIcon />
-        </Pressable>
+        <Link href="/quiz" asChild>
+          <Pressable onPress={handlePress}>
+            <Strip text="World Capitals" showIcon />
+          </Pressable>
+        </Link>
 
         <Spacer size="xsmall" />
 

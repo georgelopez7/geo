@@ -4,8 +4,10 @@ import AnswerCard from "@/components/cards/answer-card/answer-card";
 import ScreenLayout from "@/components/screen-layout/screen-layout";
 import Spacer from "@/components/spacer/spacer";
 import useGameState from "@/contexts/useGameState/useGameState";
+import { Link } from "expo-router";
+import { ArrowLeft } from "lucide-react-native";
 import React from "react";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { IsAnswerCorrect } from "./quiz-screen.helpers";
 
 const QuizScreen = () => {
@@ -49,12 +51,17 @@ const QuizScreen = () => {
   if (hasEnded) {
     return (
       <ScreenLayout>
-        <Spacer size="small" />
-        <Text className="text-black text-center font-bold text-3xl">
-          Game over!
+        <Spacer size="large" />
+        <Text className="text-black text-center font-bold text-4xl">
+          ✨ Score: {score}
         </Text>
-        <Spacer size="small" />
-        <Text>Your score: {score}</Text>
+        <Spacer size="medium" />
+        <Link href="/" asChild>
+          <Pressable className="flex-row items-center justify-center gap-2">
+            <ArrowLeft />
+            <Text className="text-xl font-semibold underline">Home</Text>
+          </Pressable>
+        </Link>
       </ScreenLayout>
     );
   }
