@@ -1,7 +1,7 @@
 import { HapticTab } from "@/components/HapticTab";
-import { IconSymbol } from "@/components/ui/IconSymbol";
 import { COLORS } from "@/constants/colors";
 import { Tabs } from "expo-router";
+import { House, Sparkles, User } from "lucide-react-native";
 import React from "react";
 import { Platform } from "react-native";
 import "../../global.css";
@@ -16,6 +16,10 @@ export default function TabLayout() {
         tabBarInactiveTintColor: darkGrey,
         headerShown: false,
         tabBarButton: HapticTab,
+        tabBarShowLabel: false,
+        tabBarIconStyle: {
+          marginTop: 4,
+        },
         tabBarStyle: Platform.select({
           ios: {
             position: "absolute",
@@ -34,32 +38,19 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
-          ),
+          tabBarIcon: ({ color }) => <House size={28} color={color} />,
         }}
       />
       <Tabs.Screen
         name="create"
         options={{
-          title: "Create",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol
-              size={28}
-              name="chevron.left.forwardslash.chevron.right"
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ color }) => <Sparkles size={28} color={color} />,
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
-          title: "Explore",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
-          ),
+          tabBarIcon: ({ color }) => <User size={28} color={color} />,
         }}
       />
     </Tabs>
