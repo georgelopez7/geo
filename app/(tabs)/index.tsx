@@ -1,39 +1,63 @@
 import Spacer from "@/components/spacer/spacer";
 import Strip from "@/components/strip/strip";
+import { IQuiz } from "@/constants/types";
 import useGameState from "@/contexts/useGameState/useGameState";
 import questions from "@/data/questions.json";
-import { Link } from "expo-router";
-import React from "react";
-import { Pressable, SafeAreaView, Text, View } from "react-native";
+import { GetAllQuizzes } from "@/db/queries/quizzes/quizzes";
+import React, { useEffect, useState } from "react";
+import { FlatList, Pressable, SafeAreaView, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const { setQuestions } = useGameState();
+
+  const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const asyncFunc = async () => {
+      const quizzes = await GetAllQuizzes(10);
+      setQuizzes(quizzes);
+      setLoading(false);
+    };
+
+    asyncFunc();
+  }, []);
 
   const handlePress = () => {
     setQuestions(questions);
   };
 
+  // LOADING STATE
+  if (loading) {
+    return (
+      <SafeAreaView className="flex-1 bg-background">
+        <View className="flex-1 items-center justify-center">
+          <Text>Loading...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView className="flex-1 bg-background">
       <View className="px-4">
         <Text className="text-2xl font-bold">Geo</Text>
-        <Spacer size="large" />
+        <Spacer size="medium" />
         <Text className="px-8 text-4xl font-bold text-center">Quizzes</Text>
         <Spacer size="small" />
-
-        <Link href="/quiz" asChild>
-          <Pressable onPress={handlePress}>
-            <Strip text="World Capitals" showIcon />
-          </Pressable>
-        </Link>
-
-        <Spacer size="xsmall" />
-
-        <Strip text="World Capitals" />
-
-        <Spacer size="xsmall" />
-
-        <Strip text="World Capitals" showIcon />
+        <FlatList
+          data={quizzes}
+          keyExtractor={(quiz) => quiz.id!}
+          contentContainerStyle={{ paddingBottom: 220 }}
+          renderItem={({ item }) => (
+            <View>
+              <Pressable onPress={handlePress}>
+                <Strip text={item.name} showIcon />
+              </Pressable>
+              <Spacer size="xxsmall" />
+            </View>
+          )}
+        />
       </View>
     </SafeAreaView>
   );
