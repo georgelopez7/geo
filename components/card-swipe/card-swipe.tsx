@@ -9,12 +9,12 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import QuestionCard from "../cards/question-card/question-card";
-import { ICardSwipe, IDirection } from "./card-swipe.interface";
+import { ICardSwipeProps, IDirection } from "./card-swipe.interface";
 
 const SWIPE_THRESHOLD = 100;
 const SCREEN_WIDTH = 400;
 
-export const CardSwipe = ({ question, onSwipeComplete }: ICardSwipe) => {
+export const CardSwipe = ({ question, onSwipeComplete }: ICardSwipeProps) => {
   // GAME STATE
   const { setShowLeftActive, setShowRightActive } = useGameState();
 
@@ -23,7 +23,7 @@ export const CardSwipe = ({ question, onSwipeComplete }: ICardSwipe) => {
   const opacity = useSharedValue(1);
 
   // HANDLE SWIPE COMPLETE
-  const onSwipeCompleteHandler = (direction: IDirection, cardID: number) => {
+  const onSwipeCompleteHandler = (direction: IDirection, cardID: string) => {
     if (onSwipeComplete) {
       onSwipeComplete(direction, cardID);
       runOnJS(setShowLeftActive)(false);
@@ -64,7 +64,7 @@ export const CardSwipe = ({ question, onSwipeComplete }: ICardSwipe) => {
           { duration: 300 },
           (finished) => {
             if (finished) {
-              runOnJS(onSwipeCompleteHandler)(direction, question.id || 0);
+              runOnJS(onSwipeCompleteHandler)(direction, "test");
             }
           }
         );

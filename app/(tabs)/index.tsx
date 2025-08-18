@@ -2,8 +2,8 @@ import Spacer from "@/components/spacer/spacer";
 import Strip from "@/components/strip/strip";
 import { IQuiz } from "@/constants/types";
 import useGameState from "@/contexts/useGameState/useGameState";
-import questions from "@/data/questions.json";
 import { GetAllQuizzes } from "@/db/queries/quizzes/quizzes";
+import { Link } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FlatList, Pressable, SafeAreaView, Text, View } from "react-native";
 
@@ -22,10 +22,6 @@ export default function HomeScreen() {
 
     asyncFunc();
   }, []);
-
-  const handlePress = () => {
-    setQuestions(questions);
-  };
 
   // LOADING STATE
   if (loading) {
@@ -51,9 +47,14 @@ export default function HomeScreen() {
           contentContainerStyle={{ paddingBottom: 220 }}
           renderItem={({ item }) => (
             <View>
-              <Pressable onPress={handlePress}>
-                <Strip text={item.name} showIcon />
-              </Pressable>
+              <Link
+                href={{ pathname: "/quiz", params: { quizID: item.id } }}
+                asChild
+              >
+                <Pressable>
+                  <Strip text={item.name} showIcon />
+                </Pressable>
+              </Link>
               <Spacer size="xxsmall" />
             </View>
           )}

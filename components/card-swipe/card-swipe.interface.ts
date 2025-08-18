@@ -1,12 +1,8 @@
-export interface IQuestion {
-  id: number;
-  question: string;
-  answers: { text: string; correct: boolean }[];
-}
+import { IQuestion } from "@/constants/types";
 
 export type IDirection = "left" | "right";
 
-export interface ICardSwipe {
+export interface ICardSwipeProps {
   question: IQuestion;
-  onSwipeComplete?: (direction: IDirection, cardID: number) => void;
+  onSwipeComplete?: (direction: IDirection, questionID: string) => void;
 }

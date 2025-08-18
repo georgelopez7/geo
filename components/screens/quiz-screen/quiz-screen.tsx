@@ -4,29 +4,49 @@ import AnswerCard from "@/components/cards/answer-card/answer-card";
 import ScreenLayout from "@/components/screen-layout/screen-layout";
 import Spacer from "@/components/spacer/spacer";
 import useGameState from "@/contexts/useGameState/useGameState";
+import { GetQuizById } from "@/db/queries/quizzes/quizzes";
 import { Link } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Pressable, Text, View } from "react-native";
 import { IsAnswerCorrect } from "./quiz-screen.helpers";
+import { IQuizScreenProps } from "./quiz-screen.interface";
 
-const QuizScreen = () => {
+const QuizScreen = ({ quizID }: IQuizScreenProps) => {
   // GAME STATE
   const {
+    questions,
     score,
     currentIndex,
+    loading,
     hasEnded,
     showLeftActive,
     showRightActive,
     setCurrentIndex,
+    setLoading,
     setHasEnded,
     setScore,
-    getCurrentQuestion,
+    setQuestions,
     getTotalNumOfQuestions,
   } = useGameState();
 
-  const currentQuestion = getCurrentQuestion();
-  const { answers } = currentQuestion;
+  // FETCH QUIZ FROM DB
+  useEffect(() => {
+    const asyncFunc = async () => {
+      const quiz = await GetQuizById(quizID);
+      console.log("🥩 Fetching Quiz from DB...");
+      if (!quiz) {
+        return;
+      }
+      setQuestions(quiz.questions);
+      setLoading(false);
+    };
+
+    asyncFunc();
+  }, [quizID, setQuestions, setLoading]);
+
+  // GET CURRENT QUESTION
+  const currentQuestion = questions[currentIndex] ?? null;
   const totalQuestions = getTotalNumOfQuestions();
 
   // HANDLE SWIPE COMPLETE
@@ -44,10 +64,22 @@ const QuizScreen = () => {
       setHasEnded(true);
       return;
     }
-
     setCurrentIndex(currentIndex + 1);
   };
 
+  // LOADING STATE
+  if (loading) {
+    return (
+      <ScreenLayout>
+        <Spacer size="large" />
+        <Text className="text-black text-center font-bold text-4xl">
+          ✨ Loading...
+        </Text>
+      </ScreenLayout>
+    );
+  }
+
+  // HANDLE END OF GAME
   if (hasEnded) {
     return (
       <ScreenLayout>
@@ -66,6 +98,8 @@ const QuizScreen = () => {
     );
   }
 
+  const { answers } = currentQuestion;
+
   return (
     <ScreenLayout>
       <Spacer size="small" />
@@ -75,7 +109,7 @@ const QuizScreen = () => {
       <Spacer size="small" />
       <View className="w-4/5 mx-auto">
         <CardSwipe
-          question={getCurrentQuestion()}
+          question={currentQuestion}
           onSwipeComplete={handleSwipeComplete}
         />
       </View>
@@ -83,12 +117,12 @@ const QuizScreen = () => {
       <Spacer size="medium" />
       <View className="flex-row justify-center gap-8">
         <AnswerCard
-          text={answers[0].text}
+          text={answers[0].answer}
           isActive={showLeftActive}
           isDisabled={showRightActive}
         />
         <AnswerCard
-          text={answers[1].text}
+          text={answers[1].answer}
           isActive={showRightActive}
           isDisabled={showLeftActive}
         />

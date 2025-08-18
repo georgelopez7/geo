@@ -7,6 +7,7 @@ const useGameState = create<IGameState>((set, get) => ({
   showLeftActive: false,
   showRightActive: false,
   score: 0,
+  loading: true,
   hasEnded: false,
 
   setQuestions: (newQuestions) =>
@@ -15,15 +16,11 @@ const useGameState = create<IGameState>((set, get) => ({
     }),
 
   setCurrentIndex: (index) => set({ currentIndex: index }),
+  setLoading: (loading) => set({ loading }),
   setHasEnded: (hasEnded) => set({ hasEnded }),
   setShowLeftActive: (active) => set({ showLeftActive: active }),
   setShowRightActive: (active) => set({ showRightActive: active }),
   setScore: (score) => set({ score }),
-
-  getCurrentQuestion: () => {
-    const state = get();
-    return state.questions[state.currentIndex];
-  },
 
   getTotalNumOfQuestions: () => {
     const state = get();
