@@ -1,29 +1,32 @@
 import ScreenLayout from "@/components/screen-layout/screen-layout";
 import Spacer from "@/components/spacer/spacer";
 import { Textarea } from "@/components/ui/textarea";
-import useGameState from "@/contexts/useGameState/useGameState";
-import questions from "@/data/questions.json";
-import { sleep } from "@/utils/utils";
+import { CreateQuiz } from "@/services/quizzes/quizzes.services";
 import { useRouter } from "expo-router";
 import { ArrowRight, Paintbrush } from "lucide-react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Pressable, Text } from "react-native";
 
 const CreateScreen = () => {
   const router = useRouter();
-  const { setQuestions } = useGameState();
 
-  const [loading, setLoading] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [loading, setLoading] = useState(false);
+  const [value, setValue] = useState("");
 
   const handleCreatePress = async () => {
     setLoading(true);
-    await sleep(2000);
+    const { quiz, error } = await CreateQuiz(value);
+    if (error) {
+      console.log("🚨 Error creating quiz:", error);
+      setLoading(false);
+      return;
+    }
+
+    console.log("✨ Quiz created:", quiz);
     setLoading(false);
   };
 
   const handlePress = () => {
-    setQuestions(questions);
     router.push({
       pathname: "/quiz",
     });

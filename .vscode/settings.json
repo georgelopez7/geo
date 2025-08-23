@@ -4,5 +4,9 @@
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
   },
-  "cSpell.words": ["Pressable", "uuidv"]
+  "cSpell.words": [
+    "bson",
+    "gonic",
+    "openrouter"
+  ]
 }

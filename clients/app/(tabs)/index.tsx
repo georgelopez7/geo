@@ -1,15 +1,12 @@
 import Spacer from "@/components/spacer/spacer";
 import Strip from "@/components/strip/strip";
 import { IQuiz } from "@/constants/types";
-import useGameState from "@/contexts/useGameState/useGameState";
 import { GetAllQuizzes } from "@/db/queries/quizzes/quizzes";
 import { Link } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FlatList, Pressable, SafeAreaView, Text, View } from "react-native";
 
 export default function HomeScreen() {
-  const { setQuestions } = useGameState();
-
   const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
   const [loading, setLoading] = useState(true);
 
